@@ -15,6 +15,22 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.9",
 }
 
+def scrape_amazon(url: str) -> ProductData:
+    res = requests.get(url, headers=HEADERS)
+    soup = BeautifulSoup(res.text, "html.parser")
+
+    title = soup.select_one("#productTitle")
+    price = soup.select_one(".priceToPay")
+    rating = soup.select_one("#acrPopover > span > a > span")
+
+    return {
+        "title": title.get_text(strip=True) if title else None,
+        "price": price.get_text(strip=True) if price else None,
+        "rating": rating.get_text(strip=True) if rating else None,
+        "url": url,
+        "source": "amazon",
+    }
+
 def scrape_flipkart(url: str) -> ProductData:
     res = requests.get(url, headers=HEADERS)
     soup = BeautifulSoup(res.text, "html.parser")
@@ -35,7 +51,11 @@ def fetch_product_details(url: str) -> dict:
     parsed_url = urlparse(url)
     domain = parsed_url.netloc.lower()
 
-    if "flipkart." in domain:
+    if "amazon." in domain:
+        return scrape_amazon(url)
+    
+    elif "flipkart." in domain:
         return scrape_flipkart(url)
+    
     else:
         raise ValueError("Website not supported yet")
