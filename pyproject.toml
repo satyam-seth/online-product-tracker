@@ -5,5 +5,6 @@ description = "Online Product Tracker"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "beautifulsoup4>=4.13.4",
     "requests>=2.32.3",
 ]
