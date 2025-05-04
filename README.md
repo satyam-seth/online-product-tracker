@@ -5,5 +5,11 @@
 - Run project with uv
 
     ```bash
-    uv run main.py
+    uv run cli.py --help
+    ```
+
+- Show current product info
+    
+    ```bash
+    uv run cli.py show --url "<product_url>"
     ```
