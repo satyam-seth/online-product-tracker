@@ -20,3 +20,13 @@ class ProductData(TypedDict):
     currency: Optional[str]
     rating: Optional[float]
     source: Source
+
+class ProductHistory(TypedDict):
+    id: int
+    # url: str
+    title: Optional[str]
+    amount: Optional[float] 
+    currency: Optional[str]
+    rating: Optional[float]
+    source: Source
+    timestamp: str

@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 from typing import List, Dict
-from tracker.types import ProductData
+from tracker.types import ProductData, ProductHistory, Source
 
 # TODO: Make this configurable
 DB_FILE = "products.db"
@@ -50,3 +50,31 @@ def save_product_data(product: ProductData):
 
     conn.commit()
     conn.close()
+
+def get_product_history(url: str) -> List[ProductHistory]:
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+
+    c.execute("""
+        SELECT title, amount, currency, rating, source, timestamp
+        FROM products
+        WHERE url = ?
+        ORDER BY timestamp ASC
+    """, (url,))
+    
+    rows = c.fetchall()
+    conn.close()
+
+    return [
+        ProductHistory(
+            id=row[0],
+            # url=url,
+            title=row[0],
+            amount=float(row[1]),
+            currency=row[2],
+            rating=float(row[3]),
+            source=Source(row[4]),
+            timestamp=row[5]
+        )
+        for row in rows
+    ]
