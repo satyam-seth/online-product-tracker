@@ -1,5 +1,6 @@
 import argparse
 from tracker.fetcher import fetch_product_details
+from tracker.storage import init_db
 
 def show(url):
     try:
@@ -10,7 +11,9 @@ def show(url):
     except ValueError as e:
         print("Failed to fetch product details:", e)
 
+
 if __name__ == "__main__":
+    init_db()
     parser = argparse.ArgumentParser(description="Online Product Tracker CLI")
     subparsers = parser.add_subparsers(dest="command")
 

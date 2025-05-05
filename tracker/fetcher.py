@@ -2,8 +2,8 @@ import random
 import requests
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
-
-from tracker.types import ProductData, ScrapePageData
+from tracker.types import Source, ProductData, ScrapePageData
+from tracker.utils import parse_price_with_currency
 
 USER_AGENTS = [  # Rotate to avoid blocks
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64)...",
@@ -23,10 +23,22 @@ def scrape_page(data: ScrapePageData) -> ProductData:
     price = soup.select_one(data["price_selector"])
     rating = soup.select_one(data["rating_selector"])
 
+    amount = None
+    currency = None
+
+    if price:
+        try:
+            amount, currency = parse_price_with_currency(price.get_text(strip=True))
+        except ValueError:
+            # TODO: add logging
+            print(f"Failed to parse price: {price.get_text(strip=True)}")
+            pass
+
     return {
         "title": title.get_text(strip=True) if title else None,
-        "price": price.get_text(strip=True) if price else None,
-        "rating": rating.get_text(strip=True) if rating else None,
+        "currency": currency,
+        "amount": amount,
+        "rating": float(rating.get_text(strip=True)) if rating else None,
         "url": data["url"],
         "source": data["source"],
     }
@@ -38,7 +50,7 @@ def scrape_amazon(url: str) -> ProductData:
         "price_selector": ".priceToPay",
         "rating_selector": "#acrPopover > span > a > span",
         "url": url,
-        "source": "amazon",
+        "source": Source.AMAZON,
     }
 
     return scrape_page(data)
@@ -49,7 +61,7 @@ def scrape_flipkart(url: str) -> ProductData:
         "price_selector": ".C7fEHH .Nx9bqj.CxhGGd",
         "rating_selector": ".C7fEHH .XQDdHH",
         "url": url,
-        "source": "flipkart",
+        "source": Source.FLIPKART,
     }
 
     return scrape_page(data)

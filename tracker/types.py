@@ -1,5 +1,10 @@
 from typing import TypedDict, Optional
+from enum import IntEnum
 
+
+class Source(IntEnum):
+    AMAZON = 1
+    FLIPKART = 2
 
 class ScrapePageData(TypedDict):
     title_selector: str
@@ -9,7 +14,9 @@ class ScrapePageData(TypedDict):
     source: str
 
 class ProductData(TypedDict):
-    title: Optional[str]
-    price: Optional[str]
-    source: str
     url: str
+    title: Optional[str]
+    amount: Optional[float] 
+    currency: Optional[str]
+    rating: Optional[float]
+    source: Source
