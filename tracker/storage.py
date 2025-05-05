@@ -30,3 +30,23 @@ def init_db():
 
     conn.commit()
     conn.close()
+
+def save_product_data(product: ProductData):
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+
+    c.execute("""
+        INSERT INTO products (url, title, amount, currency, rating, source, timestamp)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (
+        product["url"],
+        product["title"],
+        float(product["amount"]),
+        product["currency"],
+        float(product["rating"]),
+        int(product["source"].value),
+        datetime.now().isoformat()
+    ))
+
+    conn.commit()
+    conn.close()
