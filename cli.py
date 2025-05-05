@@ -1,15 +1,22 @@
 import argparse
 from tracker.fetcher import fetch_product_details
-from tracker.storage import init_db, save_product_data
+from tracker.storage import init_db, save_product_data, get_product_history
 
 
 def track(url):
     try:
         product = fetch_product_details(url)
         save_product_data(product)
-        print("Product data saved successfully.\n", product)
+        print("\nProduct data saved successfully.\n", product)
     except ValueError as e:
         print("Failed to fetch product details:", e)
+
+def history(url):
+    data = get_product_history(url)
+    if not data:
+        print("No history found for this URL.")
+        return
+    print("\nPrice History:\n", data)
 
 
 def show(url):
@@ -27,7 +34,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Online Product Tracker CLI")
     subparsers = parser.add_subparsers(dest="command")
 
-    for cmd in ["track", "show"]:
+    for cmd in ["track", "history", "show"]:
         sp = subparsers.add_parser(cmd)
         sp.add_argument("--url", required=True, help="Product URL")
 
@@ -35,6 +42,8 @@ if __name__ == "__main__":
 
     if args.command == "track":
         track(args.url)
+    elif args.command == "history":
+        history(args.url)
     elif args.command == "show":
         show(args.url)
     else:
