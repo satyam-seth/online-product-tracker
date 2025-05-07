@@ -15,8 +15,9 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.9",
 }
 
+
 def scrape_page(data: ScrapePageData) -> ProductData:
-    res = requests.get(data["url"], headers=HEADERS)
+    res = requests.get(data["url"], headers=HEADERS, timeout=20)
     soup = BeautifulSoup(res.text, "html.parser")
 
     title = soup.select_one(data["title_selector"])
@@ -32,7 +33,6 @@ def scrape_page(data: ScrapePageData) -> ProductData:
         except ValueError:
             # TODO: add logging
             print(f"Failed to parse price: {price.get_text(strip=True)}")
-            pass
 
     return {
         "title": title.get_text(strip=True) if title else None,
@@ -42,6 +42,7 @@ def scrape_page(data: ScrapePageData) -> ProductData:
         "url": data["url"],
         "source": data["source"],
     }
+
 
 def scrape_amazon(url: str) -> ProductData:
 
@@ -55,6 +56,7 @@ def scrape_amazon(url: str) -> ProductData:
 
     return scrape_page(data)
 
+
 def scrape_flipkart(url: str) -> ProductData:
     data: ScrapePageData = {
         "title_selector": ".C7fEHH .VU-ZEz",
@@ -67,15 +69,14 @@ def scrape_flipkart(url: str) -> ProductData:
     return scrape_page(data)
 
 
-def fetch_product_details(url: str) -> dict:
+def fetch_product_details(url: str) -> ProductData:
     parsed_url = urlparse(url)
     domain = parsed_url.netloc.lower()
 
     if "amazon." in domain:
         return scrape_amazon(url)
-    
-    elif "flipkart." in domain:
+
+    if "flipkart." in domain:
         return scrape_flipkart(url)
-    
-    else:
-        raise ValueError("Website not supported yet")
+
+    raise ValueError("Website not supported yet")
