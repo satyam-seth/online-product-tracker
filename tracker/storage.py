@@ -11,6 +11,25 @@ def init_db():
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
 
+    # TODO: Add created_on and updated_on field
+    # create source config table
+    c.execute(
+        """
+        CREATE TABLE IF NOT EXISTS sources (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL UNIQUE,
+        domain TEXT NOT NULL UNIQUE,
+        title_selector TEXT NOT NULL,
+        price_selector TEXT NOT NULL,
+        rating_selector TEXT NOT NULL
+        );
+    """
+    )
+
+    # Create indexes on domain and url
+    c.execute("CREATE INDEX IF NOT EXISTS idx_sources_domain ON sources (domain);")
+    c.execute("CREATE INDEX IF NOT EXISTS idx_sources_name ON sources (name);")
+
     # Create the products table
     c.execute(
         """
@@ -23,7 +42,7 @@ def init_db():
             rating REAL,
             source INTEGER NOT NULL,
             timestamp TEXT DEFAULT CURRENT_TIMESTAMP
-        )
+        );
     """
     )
 
@@ -43,7 +62,7 @@ def save_product_data(product: ProductData):
     c.execute(
         """
         INSERT INTO products (url, title, amount, currency, rating, source, timestamp)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?);
     """,
         (
             product["url"],
@@ -69,7 +88,7 @@ def get_product_history(url: str) -> List[ProductHistory]:
         SELECT title, amount, currency, rating, source, timestamp
         FROM products
         WHERE url = ?
-        ORDER BY timestamp ASC
+        ORDER BY timestamp ASC;
     """,
         (url,),
     )
