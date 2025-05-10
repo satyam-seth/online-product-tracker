@@ -1,35 +1,24 @@
 from typing import TypedDict, Optional
-from enum import IntEnum
 
 
-class Source(IntEnum):
-    AMAZON = 1
-    FLIPKART = 2
-
-
-class ScrapePageData(TypedDict):
+class SourceConfig(TypedDict):
+    id: int
+    name: str
+    domain: str
     title_selector: str
     price_selector: str
     rating_selector: str
-    url: str
-    source: Source
 
 
 class ProductData(TypedDict):
+    title: Optional[str]
+    amount: Optional[float]
+    currency: Optional[str]
+    rating: Optional[float]
     url: str
-    title: Optional[str]
-    amount: Optional[float]
-    currency: Optional[str]
-    rating: Optional[float]
-    source: Source
+    source: int
 
 
-class ProductHistory(TypedDict):
+class ProductHistory(ProductData):
     id: int
-    # url: str
-    title: Optional[str]
-    amount: Optional[float]
-    currency: Optional[str]
-    rating: Optional[float]
-    source: Source
     timestamp: str
