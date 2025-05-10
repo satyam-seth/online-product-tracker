@@ -11,6 +11,7 @@ def track(url):
     except ValueError as e:
         print("Failed to fetch product details:", e)
 
+
 def history(url):
     data = get_product_history(url)
     if not data:
