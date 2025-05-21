@@ -1,6 +1,6 @@
 import argparse
 from tracker.fetcher import fetch_product_details
-from tracker.storage import init_db, save_product_data, get_product_history
+from tracker.db import init_db, save_product_data, get_product_history
 
 
 def track(url):
