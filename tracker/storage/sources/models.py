@@ -1,4 +1,5 @@
-from sqlalchemy import String, Index
+from datetime import datetime
+from sqlalchemy import String, Index, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from db.base import Base
@@ -17,3 +18,14 @@ class Source(Base):
     title_selector: Mapped[str] = mapped_column(String, nullable=False)
     price_selector: Mapped[str] = mapped_column(String, nullable=False)
     rating_selector: Mapped[str] = mapped_column(String, nullable=False)
+    created_on: Mapped[datetime] = mapped_column(
+        DateTime,
+        nullable=False,
+        default=func.now,
+    )
+    updated_on: Mapped[datetime] = mapped_column(
+        DateTime,
+        nullable=False,
+        default=func.now,
+        onupdate=func.now,
+    )
