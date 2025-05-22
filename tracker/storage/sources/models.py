@@ -29,3 +29,6 @@ class Source(Base):
         default=func.now,
         onupdate=func.now,
     )
+
+    def __repr__(self) -> str:
+        return f"<Source(id={self.id}, name='{self.name}', domain='{self.domain}')>"
