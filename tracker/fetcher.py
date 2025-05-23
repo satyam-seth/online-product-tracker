@@ -3,8 +3,9 @@ from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
-from tracker.db import get_source_config
-from tracker.types import ProductData, SourceConfig
+from tracker.storage.sources.models import Source
+from tracker.storage.sources.services import get_source_by_domain
+from tracker.types import ProductData
 from tracker.utils import parse_price_with_currency
 
 USER_AGENTS = [  # Rotate to avoid blocks
@@ -18,12 +19,13 @@ HEADERS = {
 }
 
 
-def scrape_page(url: str, config: SourceConfig) -> ProductData:
+def scrape_page(url: str, config: Source) -> ProductData:
+    # TODO: use httpx
     res = requests.get(url, headers=HEADERS, timeout=20)
     soup = BeautifulSoup(res.text, "html.parser")
-    title = soup.select_one(config["title_selector"])
-    price = soup.select_one(config["price_selector"])
-    rating = soup.select_one(config["rating_selector"])
+    title = soup.select_one(config.title_selector)
+    price = soup.select_one(config.price_selector)
+    rating = soup.select_one(config.rating_selector)
 
     amount = None
     currency = None
@@ -41,16 +43,16 @@ def scrape_page(url: str, config: SourceConfig) -> ProductData:
         amount=amount,
         rating=float(rating.get_text(strip=True)) if rating else None,
         url=url,
-        source=config["id"],
+        source=config.id,
     )
 
 
-def fetch_product_details(url: str) -> ProductData:
+async def fetch_product_details(url: str) -> ProductData:
     parsed_url = urlparse(url)
     domain = parsed_url.netloc.lower()
 
-    config = get_source_config(domain)
-    print(config)
+    config = await get_source_by_domain(domain)
+    print("config", config)
 
     if config:
         return scrape_page(url, config)

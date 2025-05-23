@@ -5,9 +5,9 @@ from tracker.db import init_db, save_product_data, get_product_history
 from tracker.storage.sources.cli import add_sources_subparsers, handle_sources_commands
 
 
-def track(url):
+async def track(url):
     try:
-        product = fetch_product_details(url)
+        product = await fetch_product_details(url)
         save_product_data(product)
         print("\nProduct data saved successfully.\n", product)
     except ValueError as e:
@@ -22,9 +22,9 @@ def history(url):
     print("\nPrice History:\n", data)
 
 
-def show(url):
+async def show(url):
     try:
-        product = fetch_product_details(url)
+        product = await fetch_product_details(url)
         print("\nProduct Info:")
         for key, value in product.items():
             print(f"{key}: {value}")
@@ -57,13 +57,13 @@ async def async_main():
     # Handle monitor commands
     if args.command_group == "monitor":
         if args.command == "track":
-            track(args.url)
+            await track(args.url)
             return
         if args.command == "history":
             history(args.url)
             return
         if args.command == "show":
-            show(args.url)
+            await show(args.url)
             return
 
     # Handle sources commands
