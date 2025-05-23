@@ -2,7 +2,7 @@ from datetime import datetime
 from sqlalchemy import String, Index, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column
 
-from db.base import Base
+from ..db.base import Base
 
 
 class Source(Base):
@@ -21,13 +21,13 @@ class Source(Base):
     created_on: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,
-        default=func.now,
+        default=func.now(),
     )
     updated_on: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,
-        default=func.now,
-        onupdate=func.now,
+        default=func.now(),
+        onupdate=func.now(),
     )
 
     def __repr__(self) -> str:
