@@ -1,6 +1,8 @@
 import argparse
+import asyncio
 from tracker.fetcher import fetch_product_details
 from tracker.db import init_db, save_product_data, get_product_history
+from tracker.storage.sources.cli import add_sources_subparsers, handle_sources_commands
 
 
 def track(url):
@@ -30,22 +32,46 @@ def show(url):
         print("Failed to fetch product details:", e)
 
 
-if __name__ == "__main__":
-    init_db()
+async def async_main():
     parser = argparse.ArgumentParser(description="Online Product Tracker CLI")
-    subparsers = parser.add_subparsers(dest="command")
+    subparsers = parser.add_subparsers(dest="command_group", required=True)
+
+    # Group for monitor commands "track", "history", "show"
+    sync_parser = subparsers.add_parser("monitor", help="Product Monitor Commands")
+    sync_subparsers = sync_parser.add_subparsers(dest="command", required=True)
 
     for cmd in ["track", "history", "show"]:
-        sp = subparsers.add_parser(cmd)
+        sp = sync_subparsers.add_parser(cmd)
         sp.add_argument("--url", required=True, help="Product URL")
+
+    # Group for sources CRUD commands
+    sources_parser = subparsers.add_parser(
+        "sources",
+        help="Product Sources Services Commands",
+    )
+    sources_subparsers = sources_parser.add_subparsers(dest="command", required=True)
+    add_sources_subparsers(sources_subparsers)
 
     args = parser.parse_args()
 
-    if args.command == "track":
-        track(args.url)
-    elif args.command == "history":
-        history(args.url)
-    elif args.command == "show":
-        show(args.url)
-    else:
-        parser.print_help()
+    # Handle monitor commands
+    if args.command_group == "monitor":
+        if args.command == "track":
+            track(args.url)
+            return
+        if args.command == "history":
+            history(args.url)
+            return
+        if args.command == "show":
+            show(args.url)
+            return
+
+    # Handle sources commands
+    if args.command_group == "sources":
+        await handle_sources_commands(args)
+
+
+if __name__ == "__main__":
+    # TODO: remove it
+    init_db()
+    asyncio.run(async_main())
