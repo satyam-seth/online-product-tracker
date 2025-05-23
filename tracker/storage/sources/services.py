@@ -32,6 +32,13 @@ async def get_source_by_id(source_id: int) -> Optional[Source]:
         return source
 
 
+async def get_source_by_domain(domain: str) -> Optional[Source]:
+    async with async_session() as session:
+        stmt = select(Source).where(Source.domain == domain)
+        result = await session.execute(stmt)
+        return result.scalar_one_or_none()
+
+
 async def list_sources() -> Sequence[Source]:
     async with async_session() as session:
         stmt = select(Source)
