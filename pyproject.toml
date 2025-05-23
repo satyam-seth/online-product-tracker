@@ -5,8 +5,11 @@ description = "Online Product Tracker"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "aiosqlite>=0.21.0",
+    "alembic>=1.16.0",
     "beautifulsoup4>=4.13.4",
     "requests>=2.32.3",
+    "sqlalchemy[asyncio]>=2.0.41",
 ]
 
 [dependency-groups]

@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
-from tracker.storage import get_source_config
+from tracker.db import get_source_config
 from tracker.types import ProductData, SourceConfig
 from tracker.utils import parse_price_with_currency
 
