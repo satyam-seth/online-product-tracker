@@ -1,7 +1,6 @@
 import argparse
 import asyncio
-from tracker.fetcher import fetch_product_details
-from tracker.db import init_db, save_product_data, get_product_history
+from tracker.actions import history, show, track
 from tracker.storage.products.cli import (
     add_products_subparsers,
     handle_products_commands,
@@ -11,33 +10,6 @@ from tracker.storage.snapshots.cli import (
     add_snapshots_subparsers,
     handle_snapshots_commands,
 )
-
-
-async def track(url):
-    try:
-        product = await fetch_product_details(url)
-        save_product_data(product)
-        print("\nProduct data saved successfully.\n", product)
-    except ValueError as e:
-        print("Failed to fetch product details:", e)
-
-
-def history(url):
-    data = get_product_history(url)
-    if not data:
-        print("No history found for this URL.")
-        return
-    print("\nPrice History:\n", data)
-
-
-async def show(url):
-    try:
-        product = await fetch_product_details(url)
-        print("\nProduct Info:")
-        for key, value in product.items():
-            print(f"{key}: {value}")
-    except ValueError as e:
-        print("Failed to fetch product details:", e)
 
 
 async def async_main():
@@ -86,7 +58,7 @@ async def async_main():
             await track(args.url)
             return
         if args.command == "history":
-            history(args.url)
+            await history(args.url)
             return
         if args.command == "show":
             await show(args.url)
@@ -106,6 +78,4 @@ async def async_main():
 
 
 if __name__ == "__main__":
-    # TODO: remove it
-    init_db()
     asyncio.run(async_main())
