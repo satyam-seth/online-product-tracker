@@ -10,6 +10,10 @@
    alembic revision --autogenerate -m "Create Sources Table"
    ```
 
+   ```sh
+   alembic revision --autogenerate -m "Create Products Table"
+   ```
+
 3. Apply migration
 
    ```sh
