@@ -1,7 +1,7 @@
 import random
 from urllib.parse import urlparse
+from httpx import AsyncClient
 
-import requests
 from bs4 import BeautifulSoup
 from tracker.storage.sources.models import Source
 from tracker.storage.sources.services import get_source_by_domain
@@ -13,15 +13,22 @@ USER_AGENTS = [  # Rotate to avoid blocks
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)...",
 ]
 
-HEADERS = {
-    "User-Agent": random.choice(USER_AGENTS),
-    "Accept-Language": "en-US,en;q=0.9",
-}
+
+def get_headers() -> dict:
+    return {
+        "User-Agent": random.choice(USER_AGENTS),
+        "Accept-Language": "en-US,en;q=0.9",
+    }
 
 
-def scrape_page(url: str, config: Source) -> ProductData:
-    # TODO: use httpx
-    res = requests.get(url, headers=HEADERS, timeout=20)
+async def scrape_page(url: str, config: Source) -> ProductData:
+    async with AsyncClient(timeout=20) as client:
+        res = await client.get(url, headers=get_headers())
+        res.raise_for_status()
+
+    print("status_code", res.status_code)
+    # print(res.text)
+
     soup = BeautifulSoup(res.text, "html.parser")
     title = soup.select_one(config.title_selector)
     price = soup.select_one(config.price_selector)
@@ -55,6 +62,6 @@ async def fetch_product_details(url: str) -> ProductData:
     print("config", config)
 
     if config:
-        return scrape_page(url, config)
+        return await scrape_page(url, config)
 
     raise ValueError("Website not supported yet")
