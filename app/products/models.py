@@ -1,8 +1,7 @@
 from sqlalchemy import String, Index, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from ..db.base import Base
-from ..mixin import TimestampMixin
+from ..db import Base, TimestampMixin
 
 
 class Product(Base, TimestampMixin):

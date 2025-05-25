@@ -1,12 +1,15 @@
 import random
 from urllib.parse import urlparse
-from httpx import AsyncClient
 
+from httpx import AsyncClient
 from bs4 import BeautifulSoup
-from tracker.storage.sources.models import Source
-from tracker.storage.sources.services import get_source_by_domain
-from tracker.types import ProductData
-from tracker.utils import parse_price_with_currency
+
+from .utils import parse_price_with_currency
+from .sources import Source
+from .sources import get_source_by_domain
+
+# TODO: convert it into pydentic
+from .schemas import ProductData
 
 USER_AGENTS = [  # Rotate to avoid blocks
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64)...",

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from api.shemas import HealthCheck
+from app.schemas import HealthCheck
 
 app = FastAPI()
 

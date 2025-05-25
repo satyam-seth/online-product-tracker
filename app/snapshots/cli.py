@@ -1,3 +1,5 @@
+import argparse
+
 from .services import (
     create_snapshot,
     get_snapshot_by_id,
@@ -8,7 +10,7 @@ from .services import (
 )
 
 
-def add_snapshots_subparsers(subparsers):
+def add_snapshots_subparsers(subparsers: argparse._SubParsersAction):
     # Create
     create = subparsers.add_parser("create", help="Create a snapshot for a product")
     create.add_argument("--product_id", type=int, required=True)

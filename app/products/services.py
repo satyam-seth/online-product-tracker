@@ -1,7 +1,9 @@
 from typing import Optional, Sequence
+
 from sqlalchemy import select
-from tracker.storage.products.models import Product
-from tracker.storage.db.config import async_session
+
+from ..db import async_session
+from .models import Product
 
 
 async def create_product(

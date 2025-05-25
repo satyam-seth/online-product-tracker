@@ -1,15 +1,16 @@
 import argparse
 import asyncio
-from tracker.actions import history, show, track
-from tracker.storage.products.cli import (
+
+from .sources import add_sources_subparsers, handle_sources_commands
+from .products import (
     add_products_subparsers,
     handle_products_commands,
 )
-from tracker.storage.sources.cli import add_sources_subparsers, handle_sources_commands
-from tracker.storage.snapshots.cli import (
+from .snapshots import (
     add_snapshots_subparsers,
     handle_snapshots_commands,
 )
+from .actions import history, show, track
 
 
 async def async_main():

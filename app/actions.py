@@ -1,9 +1,9 @@
-from tracker.fetcher import fetch_product_details
-from tracker.storage.products.services import create_product, get_product_by_url
-from tracker.storage.snapshots.services import (
+from .products import create_product, get_product_by_url
+from .snapshots import (
     create_snapshot,
     list_snapshots_for_product,
 )
+from .fetcher import fetch_product_details
 
 
 async def track(url):

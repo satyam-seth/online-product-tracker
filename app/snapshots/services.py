@@ -1,7 +1,7 @@
 from typing import Optional, Sequence
 from sqlalchemy import select
 
-from ..db.config import async_session
+from ..db import async_session
 from .models import ProductSnapshot
 
 

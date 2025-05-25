@@ -1,4 +1,6 @@
-from tracker.storage.products.services import (
+import argparse
+
+from .services import (
     create_product,
     get_product_by_id,
     get_product_by_url,
@@ -8,7 +10,7 @@ from tracker.storage.products.services import (
 )
 
 
-def add_products_subparsers(subparsers):
+def add_products_subparsers(subparsers: argparse._SubParsersAction):
     # Create
     create = subparsers.add_parser("create", help="Create a new product")
     create.add_argument("--url", required=True)

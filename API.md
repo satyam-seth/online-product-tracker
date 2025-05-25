@@ -1,5 +1,11 @@
 - Run Server
 
+  - Go to app directory
+
+    ```bash
+    cd app
+    ```
+
   - Using FastAPI CLI (Recommended)
 
     ```bash
