@@ -11,9 +11,15 @@ class Product(Base, TimestampMixin):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     url: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    # TODO: add ondelete cascade
     source_id: Mapped[int] = mapped_column(ForeignKey("sources.id"), nullable=False)
 
     source: Mapped["Source"] = relationship("Source", back_populates="products")
+    snapshots: Mapped[list["ProductSnapshot"]] = relationship(
+        "ProductSnapshot",
+        back_populates="product",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return f"<Product id={self.id} url={self.url} source_id={self.source_id}>"
