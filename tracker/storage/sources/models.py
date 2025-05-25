@@ -1,11 +1,11 @@
-from datetime import datetime
-from sqlalchemy import String, Index, DateTime, func
+from sqlalchemy import String, Index
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ..db.base import Base
+from ..mixin import TimestampMixin
 
 
-class Source(Base):
+class Source(Base, TimestampMixin):
     __tablename__ = "sources"
     __table_args__ = (
         Index("idx_sources_domain", "domain"),
@@ -18,17 +18,6 @@ class Source(Base):
     title_selector: Mapped[str] = mapped_column(String, nullable=False)
     price_selector: Mapped[str] = mapped_column(String, nullable=False)
     rating_selector: Mapped[str] = mapped_column(String, nullable=False)
-    created_on: Mapped[datetime] = mapped_column(
-        DateTime,
-        nullable=False,
-        default=func.now(),
-    )
-    updated_on: Mapped[datetime] = mapped_column(
-        DateTime,
-        nullable=False,
-        default=func.now(),
-        onupdate=func.now(),
-    )
 
     products: Mapped[list["Product"]] = relationship("Product", back_populates="source")
 
