@@ -20,3 +20,10 @@ class ProductSnapshot(Base, TimestampMixin):
     currency: Mapped[str] = mapped_column(String, nullable=True)
 
     product: Mapped["Product"] = relationship("Product", back_populates="snapshots")
+
+    def __repr__(self) -> str:
+        return (
+            f"<ProductSnapshot(id={self.id}, product_id={self.product_id}, "
+            f"amount={self.amount}, rating={self.rating}, currency='{self.currency}', "
+            f"created_on={self.created_on})>"
+        )
