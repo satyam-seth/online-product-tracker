@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy import String, Index, DateTime, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ..db.base import Base
 
@@ -29,6 +29,8 @@ class Source(Base):
         default=func.now(),
         onupdate=func.now(),
     )
+
+    products: Mapped[list["Product"]] = relationship("Product", back_populates="source")
 
     def __repr__(self) -> str:
         return f"<Source(id={self.id}, name='{self.name}', domain='{self.domain}')>"
