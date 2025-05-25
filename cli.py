@@ -7,6 +7,10 @@ from tracker.storage.products.cli import (
     handle_products_commands,
 )
 from tracker.storage.sources.cli import add_sources_subparsers, handle_sources_commands
+from tracker.storage.snapshots.cli import (
+    add_snapshots_subparsers,
+    handle_snapshots_commands,
+)
 
 
 async def track(url):
@@ -56,13 +60,23 @@ async def async_main():
     sources_subparsers = sources_parser.add_subparsers(dest="command", required=True)
     add_sources_subparsers(sources_subparsers)
 
-    # Group for sources CRUD commands
-    sources_parser = subparsers.add_parser(
+    # Group for products CRUD commands
+    products_parser = subparsers.add_parser(
         "products",
         help="Product Services Commands",
     )
-    sources_subparsers = sources_parser.add_subparsers(dest="command", required=True)
-    add_products_subparsers(sources_subparsers)
+    products_subparsers = products_parser.add_subparsers(dest="command", required=True)
+    add_products_subparsers(products_subparsers)
+
+    # Group for snapshots CRUD commands
+    snapshots_parser = subparsers.add_parser(
+        "snapshots",
+        help="Product Snapshot Services Commands",
+    )
+    snapshots_subparsers = snapshots_parser.add_subparsers(
+        dest="command", required=True
+    )
+    add_snapshots_subparsers(snapshots_subparsers)
 
     args = parser.parse_args()
 
@@ -85,6 +99,10 @@ async def async_main():
     # Handle products commands
     if args.command_group == "products":
         await handle_products_commands(args)
+
+    # Handle snapshots commands
+    if args.command_group == "snapshots":
+        await handle_snapshots_commands(args)
 
 
 if __name__ == "__main__":

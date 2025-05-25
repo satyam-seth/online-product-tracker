@@ -9,6 +9,7 @@ from alembic import context
 from storage.db.base import Base
 from storage.sources.models import Source
 from storage.products.models import Product
+from tracker.storage.snapshots.models import ProductSnapshot
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
