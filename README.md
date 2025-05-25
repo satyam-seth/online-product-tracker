@@ -17,13 +17,17 @@ Tool for managing product sources and tracking product URLs asynchronously with 
 
 - [DB Setup](./tracker/README.md)
 
+## API
+
+- [Run API Server](./api/README.md)
+
+## CLI
+
 - Run project with uv
 
   ```bash
   uv run cli.py --help
   ```
-
-## Usage
 
 Run the CLI with Python:
 
