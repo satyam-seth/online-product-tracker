@@ -2,6 +2,10 @@ import argparse
 import asyncio
 from tracker.fetcher import fetch_product_details
 from tracker.db import init_db, save_product_data, get_product_history
+from tracker.storage.products.cli import (
+    add_products_subparsers,
+    handle_products_commands,
+)
 from tracker.storage.sources.cli import add_sources_subparsers, handle_sources_commands
 
 
@@ -52,6 +56,14 @@ async def async_main():
     sources_subparsers = sources_parser.add_subparsers(dest="command", required=True)
     add_sources_subparsers(sources_subparsers)
 
+    # Group for sources CRUD commands
+    sources_parser = subparsers.add_parser(
+        "products",
+        help="Product Services Commands",
+    )
+    sources_subparsers = sources_parser.add_subparsers(dest="command", required=True)
+    add_products_subparsers(sources_subparsers)
+
     args = parser.parse_args()
 
     # Handle monitor commands
@@ -69,6 +81,10 @@ async def async_main():
     # Handle sources commands
     if args.command_group == "sources":
         await handle_sources_commands(args)
+
+    # Handle products commands
+    if args.command_group == "products":
+        await handle_products_commands(args)
 
 
 if __name__ == "__main__":
