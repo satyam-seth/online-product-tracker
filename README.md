@@ -6,6 +6,8 @@ Tool for managing product sources and tracking product URLs asynchronously with 
 
 - Track product URLs (`track`, `history`, `show`)
 - CRUD operations on product sources (`create`, `get`, `list`, `update`, `delete`)
+- CRUD operations on product (`create`, `get`, `get-by-url`, `list`, `update`, `delete`)
+- CRUD operations on product (`create`, `get`, `list`, `list-by-product`, `update`, `delete`)
 - Async database interactions using SQLAlchemy with async sessions
 - Modular CLI built using Python's standard `argparse` and `asyncio`
 
@@ -104,4 +106,119 @@ python cli.py <command> [options]
 
   ```bash
   python cli.py delete 1
+  ```
+
+---
+
+#### CRUD operations for **Products**
+
+- **create**
+
+  Create a new product.
+
+  ```bash
+  python cli.py products create \
+  --url "https://www.example.in/product/123" \
+  --source_id 1
+  ```
+
+- **get**
+
+  Retrieve a product by ID.
+
+  ```bash
+  python cli.py products get --id 1
+  ```
+
+- **get by url**
+
+  Retrieve a product by URL.
+
+  ```bash
+  python cli.py products get --url-by-url "https://www.example.in/product/123"
+  ```
+
+- **list**
+
+  List all products.
+
+  ```bash
+  python cli.py products list
+  ```
+
+- **update**
+
+  Update an existing product.
+
+  ```bash
+  python cli.py products update \
+  --id 1 \
+  --url "https://www.example.in/product/updated-url"
+  ```
+
+- **delete**
+
+  Delete a product by ID.
+
+  ```bash
+  python cli.py products delete --id 1
+  ```
+
+---
+
+#### CRUD operations for **Product Snapshots**
+
+- **create**
+
+  Create a new snapshot for a product.
+
+  ```bash
+  python cli.py snapshots create \
+  --product_id 1 \
+  --title "Example Product" \
+  --rating 4.5 \
+  --amount 499.99 \
+  --currency "INR"
+  ```
+
+- **get**
+
+  Retrieve a snapshot by ID.
+
+  ```bash
+  python cli.py snapshots get --id 1
+  ```
+
+- **list**
+
+  List all snapshots.
+
+  ```bash
+  python cli.py snapshots list
+  ```
+
+- **list by product id**
+
+  List all snapshots for a product ID.
+
+  ```bash
+  python cli.py snapshots list-by-product --product_id 1
+  ```
+
+- **update**
+
+  Update a snapshot by ID.
+
+  ```bash
+  python cli.py snapshots update \
+  --id 1 \
+  --rating 4.8
+  ```
+
+- **delete**
+
+  Delete a snapshot by ID.
+
+  ```bash
+  python cli.py snapshots delete --id 1
   ```
