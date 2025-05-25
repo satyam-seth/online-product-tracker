@@ -9,7 +9,6 @@ dependencies = [
     "alembic>=1.16.0",
     "beautifulsoup4>=4.13.4",
     "httpx>=0.28.1",
-    "requests>=2.32.3",
     "sqlalchemy[asyncio]>=2.0.41",
 ]
 
