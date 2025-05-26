@@ -7,7 +7,7 @@
 - Run the CLI with Python:
 
   ```bash
-  python cli.py <command> [options]
+  python -m app.cli <command> [options]
   ```
 
 ### Commands
@@ -19,7 +19,7 @@
   Track a product by URL
 
   ```bash
-  python cli.py track --url "https://example.com/product/123"
+  python -m app.cli track --url "https://example.com/product/123"
   ```
 
 - **history**
@@ -27,7 +27,7 @@
   Show tracking history for a product URL
 
   ```bash
-  python cli.py history --url "https://example.com/product/123"
+  python -m app.cli history --url "https://example.com/product/123"
   ```
 
 - **show**
@@ -35,7 +35,7 @@
   Show product details for a URL
 
   ```bash
-  python cli.py show --url "https://example.com/product/123"
+  python -m app.cli show --url "https://example.com/product/123"
   ```
 
 ---
@@ -47,7 +47,7 @@
   Create a new source
 
   ```bash
-  python cli.py sources create \
+  python -m app.cli sources create \
   --name EXAMPLE_IN \
   --domain "www.example.in" \
   --title_selector "#title" \
@@ -60,7 +60,7 @@
   Retrieve a source by ID
 
   ```bash
-  python cli.py get 1
+  python -m app.cli get 1
   ```
 
 - **list**
@@ -68,7 +68,7 @@
   List all sources
 
   ```bash
-  python cli.py list
+  python -m app.cli list
   ```
 
 - **update**
@@ -76,7 +76,7 @@
   Update an existing source by ID
 
   ```bash
-  python cli.py update 1 --domain "www.newdomain.com"
+  python -m app.cli update 1 --domain "www.newdomain.com"
   ```
 
 - **delete**
@@ -84,7 +84,7 @@
   Delete a source by ID
 
   ```bash
-  python cli.py delete 1
+  python -m app.cli delete 1
   ```
 
 ---
@@ -96,7 +96,7 @@
   Create a new product.
 
   ```bash
-  python cli.py products create \
+  python -m app.cli products create \
   --url "https://www.example.in/product/123" \
   --source_id 1
   ```
@@ -106,7 +106,7 @@
   Retrieve a product by ID.
 
   ```bash
-  python cli.py products get --id 1
+  python -m app.cli products get --id 1
   ```
 
 - **get by url**
@@ -114,7 +114,7 @@
   Retrieve a product by URL.
 
   ```bash
-  python cli.py products get --url-by-url "https://www.example.in/product/123"
+  python -m app.cli products get --url-by-url "https://www.example.in/product/123"
   ```
 
 - **list**
@@ -122,7 +122,7 @@
   List all products.
 
   ```bash
-  python cli.py products list
+  python -m app.cli products list
   ```
 
 - **update**
@@ -130,7 +130,7 @@
   Update an existing product.
 
   ```bash
-  python cli.py products update \
+  python -m app.cli products update \
   --id 1 \
   --url "https://www.example.in/product/updated-url"
   ```
@@ -140,7 +140,7 @@
   Delete a product by ID.
 
   ```bash
-  python cli.py products delete --id 1
+  python -m app.cli products delete --id 1
   ```
 
 ---
@@ -152,7 +152,7 @@
   Create a new snapshot for a product.
 
   ```bash
-  python cli.py snapshots create \
+  python -m app.cli snapshots create \
   --product_id 1 \
   --title "Example Product" \
   --rating 4.5 \
@@ -165,7 +165,7 @@
   Retrieve a snapshot by ID.
 
   ```bash
-  python cli.py snapshots get --id 1
+  python -m app.cli snapshots get --id 1
   ```
 
 - **list**
@@ -173,7 +173,7 @@
   List all snapshots.
 
   ```bash
-  python cli.py snapshots list
+  python -m app.cli snapshots list
   ```
 
 - **list by product id**
@@ -181,7 +181,7 @@
   List all snapshots for a product ID.
 
   ```bash
-  python cli.py snapshots list-by-product --product_id 1
+  python -m app.cli snapshots list-by-product --product_id 1
   ```
 
 - **update**
@@ -189,7 +189,7 @@
   Update a snapshot by ID.
 
   ```bash
-  python cli.py snapshots update \
+  python -m app.cli snapshots update \
   --id 1 \
   --rating 4.8
   ```
@@ -199,5 +199,5 @@
   Delete a snapshot by ID.
 
   ```bash
-  python cli.py snapshots delete --id 1
+  python -m app.cli snapshots delete --id 1
   ```
