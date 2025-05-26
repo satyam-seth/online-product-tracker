@@ -3,22 +3,17 @@ from sqlalchemy import select
 from ..db.config import async_session
 
 from .models import Source
+from .schemas import SourceCreate
 
 
-async def create_source(
-    name: str,
-    domain: str,
-    title_selector: str,
-    price_selector: str,
-    rating_selector: str,
-) -> Source:
+async def create_source(new_source: SourceCreate) -> Source:
     async with async_session() as session:
         source = Source(
-            name=name,
-            domain=domain,
-            title_selector=title_selector,
-            price_selector=price_selector,
-            rating_selector=rating_selector,
+            name=new_source.name,
+            domain=new_source.domain,
+            title_selector=new_source.title_selector,
+            price_selector=new_source.price_selector,
+            rating_selector=new_source.rating_selector,
         )
         session.add(source)
         await session.commit()
