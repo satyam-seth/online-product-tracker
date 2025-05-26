@@ -1,5 +1,6 @@
 import argparse
 
+from .schemas import SourceCreate
 from .services import (
     create_source,
     get_source_by_id,
@@ -46,13 +47,14 @@ def add_sources_subparsers(subparsers: argparse._SubParsersAction):
 
 async def handle_sources_commands(args: argparse.Namespace):
     if args.command == "create":
-        source = await create_source(
+        new_source = SourceCreate(
             name=args.name,
             domain=args.domain,
             title_selector=args.title_selector,
             price_selector=args.price_selector,
             rating_selector=args.rating_selector,
         )
+        source = await create_source(new_source)
         print("Created:", source)
 
     elif args.command == "get":
