@@ -20,6 +20,6 @@ async def source_create(new_source: SourceCreate):
 
 
 @app.get("/sources/{source_id}", response_model=SourceOut, tags=["Sources"])
-async def source_create(source_id: int):
+async def source_get(source_id: int):
     source = await get_source_by_id(source_id)
     return source
