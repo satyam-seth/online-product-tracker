@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from .schemas import HealthCheck
 from .sources import SourceCreate, SourceOut
-from .sources import create_source, get_source_by_id
+from .sources import create_source, get_source_by_id, list_sources
 
 app = FastAPI()
 
@@ -22,4 +22,11 @@ async def source_create(new_source: SourceCreate):
 @app.get("/sources/{source_id}", response_model=SourceOut, tags=["Sources"])
 async def source_get(source_id: int):
     source = await get_source_by_id(source_id)
+    return source
+
+
+# TODO: add support for pagination, filtering by domain
+@app.get("/sources", response_model=list[SourceOut], tags=["Sources"])
+async def source_list():
+    source = await list_sources()
     return source
