@@ -1,6 +1,6 @@
 import argparse
 
-from .schemas import SourceCreate
+from .schemas import SourceCreate, SourceUpdate
 from .services import (
     create_source,
     get_source_by_id,
@@ -73,11 +73,13 @@ async def handle_sources_commands(args: argparse.Namespace):
     elif args.command == "update":
         source = await update_source(
             source_id=args.id,
-            name=args.name,
-            domain=args.domain,
-            title_selector=args.title_selector,
-            price_selector=args.price_selector,
-            rating_selector=args.rating_selector,
+            updated_source=SourceUpdate(
+                name=args.name,
+                domain=args.domain,
+                title_selector=args.title_selector,
+                price_selector=args.price_selector,
+                rating_selector=args.rating_selector,
+            ),
         )
         print("Updated:", source)
 

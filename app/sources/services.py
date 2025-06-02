@@ -3,7 +3,7 @@ from sqlalchemy import select
 from ..db.config import async_session
 
 from .models import Source
-from .schemas import SourceCreate
+from .schemas import SourceCreate, SourceUpdate
 
 
 async def create_source(new_source: SourceCreate) -> Source:
@@ -43,11 +43,7 @@ async def list_sources() -> Sequence[Source]:
 
 async def update_source(
     source_id: int,
-    name: Optional[str] = None,
-    domain: Optional[str] = None,
-    title_selector: Optional[str] = None,
-    price_selector: Optional[str] = None,
-    rating_selector: Optional[str] = None,
+    updated_source: SourceUpdate,
 ) -> Optional[Source]:
     async with async_session() as session:
         source = await session.get(Source, source_id)
@@ -55,16 +51,16 @@ async def update_source(
         if not source:
             return None
 
-        if name is not None:
-            source.name = name
-        if domain is not None:
-            source.domain = domain
-        if title_selector is not None:
-            source.title_selector = title_selector
-        if price_selector is not None:
-            source.price_selector = price_selector
-        if rating_selector is not None:
-            source.rating_selector = rating_selector
+        if updated_source.name is not None:
+            source.name = updated_source.name
+        if updated_source.domain is not None:
+            source.domain = updated_source.domain
+        if updated_source.title_selector is not None:
+            source.title_selector = updated_source.title_selector
+        if updated_source.price_selector is not None:
+            source.price_selector = updated_source.price_selector
+        if updated_source.rating_selector is not None:
+            source.rating_selector = updated_source.rating_selector
 
         await session.commit()
         return source
