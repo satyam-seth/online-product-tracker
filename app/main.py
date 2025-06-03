@@ -21,9 +21,14 @@ async def source_create(new_source: SourceCreate):
     return source
 
 
+# TODO: use http_exception_handler or custom exception handler
 @app.get("/sources/{source_id}", response_model=SourceOut, tags=["Sources"])
 async def source_get(source_id: int):
     source = await get_source_by_id(source_id)
+
+    if not source:
+        raise HTTPException(status_code=404, detail="Source not found")
+
     return source
 
 
