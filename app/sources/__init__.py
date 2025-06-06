@@ -11,6 +11,8 @@ from .services import (
     delete_source,
 )
 
+from .controllers import sources_router
+
 from .cli import add_sources_subparsers, handle_sources_commands
 
 __all__ = [
@@ -25,4 +27,5 @@ __all__ = [
     "delete_source",
     "add_sources_subparsers",
     "handle_sources_commands",
+    "sources_router",
 ]
