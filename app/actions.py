@@ -14,15 +14,15 @@ async def track(url):
         saved_product = await get_product_by_url(url)
 
         if saved_product is None:
-            saved_product = await create_product(url, product.get("source"))
+            saved_product = await create_product(url, product.source)
 
         # save snapshot
         await create_snapshot(
             saved_product.id,
-            product.get("title"),
-            product.get("rating"),
-            product.get("amount"),
-            product.get("currency"),
+            product.title,
+            product.rating,
+            product.amount,
+            product.currency,
         )
 
         # save_product_data(product)
@@ -46,7 +46,7 @@ async def show(url):
     try:
         product = await fetch_product_details(url)
         print("\nProduct Info:")
-        for key, value in product.items():
+        for key, value in product.model_dump().items():
             print(f"{key}: {value}")
     except ValueError as e:
         print("Failed to fetch product details:", e)
