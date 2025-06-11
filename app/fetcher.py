@@ -4,12 +4,12 @@ from urllib.parse import urlparse
 from httpx import AsyncClient
 from bs4 import BeautifulSoup
 
+from .snapshots import ProductShow
+
 from .utils import parse_price_with_currency
 from .sources import Source
 from .sources import get_source_by_domain
 
-# TODO: convert it into pydentic
-from .schemas import ProductData
 
 USER_AGENTS = [  # Rotate to avoid blocks
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64)...",
@@ -24,7 +24,7 @@ def get_headers() -> dict:
     }
 
 
-async def scrape_page(url: str, config: Source) -> ProductData:
+async def scrape_page(url: str, config: Source) -> ProductShow:
     async with AsyncClient(timeout=20) as client:
         res = await client.get(url, headers=get_headers())
         res.raise_for_status()
@@ -47,7 +47,7 @@ async def scrape_page(url: str, config: Source) -> ProductData:
             # TODO: add logging
             print(f"Failed to parse price: {price.get_text(strip=True)}")
 
-    return ProductData(
+    return ProductShow(
         title=title.get_text(strip=True) if title else None,
         currency=currency,
         amount=amount,
@@ -57,7 +57,7 @@ async def scrape_page(url: str, config: Source) -> ProductData:
     )
 
 
-async def fetch_product_details(url: str) -> ProductData:
+async def fetch_product_details(url: str) -> ProductShow:
     parsed_url = urlparse(url)
     domain = parsed_url.netloc.lower()
 

@@ -9,6 +9,8 @@ from .services import (
     delete_snapshot,
 )
 
+from .schemas import ProductShow
+
 from .cli import add_snapshots_subparsers, handle_snapshots_commands
 
 __all__ = [
@@ -21,4 +23,5 @@ __all__ = [
     "delete_snapshot",
     "add_snapshots_subparsers",
     "handle_snapshots_commands",
+    "ProductShow",
 ]
