@@ -10,8 +10,6 @@ from .utils import parse_price_with_currency
 from .sources import Source
 from .sources import get_source_by_domain
 
-# TODO: remove it
-# from .schemas import ProductData
 
 USER_AGENTS = [  # Rotate to avoid blocks
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64)...",
