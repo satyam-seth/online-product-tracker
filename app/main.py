@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from .schemas import HealthCheck
 from .sources import sources_router
+from .snapshots import snapshots_router
 
 app = FastAPI()
 
@@ -12,3 +13,4 @@ def health_check():
 
 
 app.include_router(sources_router)
+app.include_router(snapshots_router)
