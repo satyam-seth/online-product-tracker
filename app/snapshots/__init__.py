@@ -13,6 +13,8 @@ from .schemas import ProductShow
 
 from .cli import add_snapshots_subparsers, handle_snapshots_commands
 
+from .controllers import snapshots_router
+
 __all__ = [
     "ProductSnapshot",
     "create_snapshot",
@@ -24,4 +26,5 @@ __all__ = [
     "add_snapshots_subparsers",
     "handle_snapshots_commands",
     "ProductShow",
+    "snapshots_router",
 ]

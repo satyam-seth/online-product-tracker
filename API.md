@@ -9,7 +9,7 @@
   - Using FastAPI CLI (Recommended)
 
     ```bash
-    fastapi dev main.py
+    fastapi dev app/main.py
     ```
 
 - Server at `http://127.0.0.1:8000/`
