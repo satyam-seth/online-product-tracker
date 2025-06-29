@@ -19,7 +19,7 @@
   Track a product by URL
 
   ```bash
-  python -m app.cli track --url "https://example.com/product/123"
+  python -m app.cli monitor track --url "https://example.com/product/123"
   ```
 
 - **history**
@@ -27,7 +27,7 @@
   Show tracking history for a product URL
 
   ```bash
-  python -m app.cli history --url "https://example.com/product/123"
+  python -m app.cli monitor history --url "https://example.com/product/123"
   ```
 
 - **show**
@@ -35,7 +35,7 @@
   Show product details for a URL
 
   ```bash
-  python -m app.cli show --url "https://example.com/product/123"
+  python -m app.cli monitor show --url "https://example.com/product/123"
   ```
 
 ---
@@ -60,7 +60,7 @@
   Retrieve a source by ID
 
   ```bash
-  python -m app.cli get 1
+  python -m app.cli sources get 1
   ```
 
 - **list**
@@ -68,7 +68,7 @@
   List all sources
 
   ```bash
-  python -m app.cli list
+  python -m app.cli sources list
   ```
 
 - **update**
@@ -76,7 +76,7 @@
   Update an existing source by ID
 
   ```bash
-  python -m app.cli update 1 --domain "www.newdomain.com"
+  python -m app.cli sources update 1 --domain "www.newdomain.com"
   ```
 
 - **delete**
@@ -84,7 +84,7 @@
   Delete a source by ID
 
   ```bash
-  python -m app.cli delete 1
+  python -m app.cli sources delete 1
   ```
 
 ---
