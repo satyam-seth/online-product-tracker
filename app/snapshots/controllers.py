@@ -9,6 +9,6 @@ snapshots_router = APIRouter(prefix="/snapshots", tags=["Snapshots"])
 
 
 @snapshots_router.post("/", response_model=ProductShow)
-async def source_create(url: str):
+async def snapshot_create(url: str):
     source = await fetch_product_details(url)
     return source
