@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 from fastapi import APIRouter, HTTPException
 
 from ..sources.services import get_source_by_domain
-from .services import create_product, get_product_by_url
+from .services import create_product, get_product_by_id
 from .schemas import ProductOut
 
 
@@ -30,4 +30,15 @@ async def product_create(url: str):
 
     # create the product using the source ID and URL
     product = await create_product(url=url, source_id=source.id)
+    return product
+
+
+@products_router.get("/", response_model=ProductOut)
+async def product_get(product_id: int):
+    product = await get_product_by_id(product_id)
+
+    # if product is not found, raise an error
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
     return product
