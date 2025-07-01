@@ -33,7 +33,7 @@ async def product_create(url: str):
     return product
 
 
-@products_router.get("/", response_model=ProductOut)
+@products_router.get("/{product_id}", response_model=ProductOut)
 async def product_get(product_id: int):
     product = await get_product_by_id(product_id)
 
