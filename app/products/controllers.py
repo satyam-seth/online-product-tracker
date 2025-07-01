@@ -7,6 +7,7 @@ from .services import (
     create_product,
     get_product_by_id,
     get_product_by_url,
+    list_products,
 )
 from .schemas import ProductOut
 
@@ -46,3 +47,10 @@ async def product_get(product_id: int):
         raise HTTPException(status_code=404, detail="Product not found")
 
     return product
+
+
+# TODO: add support for pagination, filtering by source
+@products_router.get("/", response_model=list[ProductOut])
+async def product_list():
+    products = await list_products()
+    return products
