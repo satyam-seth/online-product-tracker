@@ -1,6 +1,6 @@
 from urllib.parse import urlparse
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response, status
 
 from ..sources.services import get_source_by_domain
 from .services import (
@@ -8,6 +8,7 @@ from .services import (
     get_product_by_id,
     get_product_by_url,
     list_products,
+    delete_product,
 )
 from .schemas import ProductOut
 
@@ -54,3 +55,13 @@ async def product_get(product_id: int):
 async def product_list():
     products = await list_products()
     return products
+
+
+@products_router.delete("/{product_id}", response_model=ProductOut)
+async def product_delete(product_id: int):
+    succeed = await delete_product(product_id)
+
+    if not succeed:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
