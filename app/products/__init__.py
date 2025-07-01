@@ -14,6 +14,8 @@ from .cli import (
     handle_products_commands,
 )
 
+from .controllers import products_router
+
 __all__ = [
     "Product",
     "create_product",
@@ -24,4 +26,5 @@ __all__ = [
     "delete_product",
     "add_products_subparsers",
     "handle_products_commands",
+    "products_router",
 ]
