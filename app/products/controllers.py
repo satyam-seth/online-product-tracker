@@ -3,7 +3,11 @@ from urllib.parse import urlparse
 from fastapi import APIRouter, HTTPException
 
 from ..sources.services import get_source_by_domain
-from .services import create_product, get_product_by_id
+from .services import (
+    create_product,
+    get_product_by_id,
+    get_product_by_url,
+)
 from .schemas import ProductOut
 
 
