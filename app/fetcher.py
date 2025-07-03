@@ -4,8 +4,8 @@ from urllib.parse import urlparse
 from httpx import AsyncClient
 from bs4 import BeautifulSoup
 
+from .exceptions import WebsiteNotSupportedError
 from .snapshots import ProductShow
-
 from .utils import parse_price_with_currency
 from .sources import Source
 from .sources import get_source_by_domain
@@ -67,4 +67,4 @@ async def fetch_product_details(url: str) -> ProductShow:
     if config:
         return await scrape_page(url, config)
 
-    raise ValueError("Website not supported yet")
+    raise WebsiteNotSupportedError(domain)
