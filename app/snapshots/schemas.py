@@ -11,5 +11,10 @@ class ProductShow(BaseModel):
     source: int
 
 
-# ek snapshot fetch api bayenge wha se bus fetch karke dikha denge
-# fir ek histoty api bna denge
+class ProductSnapshotOut(BaseModel):
+    id: int
+    product_id: int
+    title: Optional[str] = None
+    rating: Optional[float] = None
+    amount: Optional[float] = None
+    currency: Optional[str] = None
